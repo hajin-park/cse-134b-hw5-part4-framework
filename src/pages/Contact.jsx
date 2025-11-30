@@ -1,5 +1,31 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
+import ContactItem from '../components/ContactItem';
+
+const contactItemsData = [
+  {
+    title: 'Email',
+    type: 'email',
+    content: {
+      primary: { label: 'Primary', email: 'hajin1819@gmail.com' },
+      university: { label: 'University', email: 'hap009@ucsd.edu' },
+    },
+  },
+  {
+    title: 'Location',
+    type: 'location',
+    content: 'San Diego, California, United States',
+  },
+  {
+    title: 'Professional Links',
+    type: 'links',
+    content: [
+      { url: 'https://github.com/hajin-park', text: 'GitHub' },
+      { url: 'https://www.linkedin.com/in/hajinpark', text: 'LinkedIn' },
+      { url: 'https://hajinpark.com', text: 'Personal Website' },
+    ],
+  },
+];
 
 const validationRules = {
   name: {
@@ -139,37 +165,32 @@ function Contact() {
         </p>
 
         <address className="contact-details">
-          <article className="contact-item">
-            <h3>Email</h3>
-            <p>
-              <strong>Primary:</strong>{' '}
-              <a href="mailto:hajin1819@gmail.com">hajin1819@gmail.com</a><br />
-              <strong>University:</strong>{' '}
-              <a href="mailto:hap009@ucsd.edu">hap009@ucsd.edu</a>
-            </p>
-          </article>
-
-          <article className="contact-item">
-            <h3>Location</h3>
-            <p>
-              <i>San Diego, California, United States</i>
-            </p>
-          </article>
-
-          <article className="contact-item">
-            <h3>Professional Links</h3>
-            <ul>
-              <li>
-                <a href="https://github.com/hajin-park" target="_blank" rel="noopener noreferrer">GitHub</a>
-              </li>
-              <li>
-                <a href="https://www.linkedin.com/in/hajinpark" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-              </li>
-              <li>
-                <a href="https://hajinpark.com" target="_blank" rel="noopener noreferrer">Personal Website</a>
-              </li>
-            </ul>
-          </article>
+          {contactItemsData.map((item, index) => (
+            <ContactItem key={index} title={item.title}>
+              {item.type === 'email' && (
+                <p>
+                  <strong>{item.content.primary.label}:</strong>{' '}
+                  <a href={`mailto:${item.content.primary.email}`}>{item.content.primary.email}</a><br />
+                  <strong>{item.content.university.label}:</strong>{' '}
+                  <a href={`mailto:${item.content.university.email}`}>{item.content.university.email}</a>
+                </p>
+              )}
+              {item.type === 'location' && (
+                <p>
+                  <i>{item.content}</i>
+                </p>
+              )}
+              {item.type === 'links' && (
+                <ul>
+                  {item.content.map((link, linkIndex) => (
+                    <li key={linkIndex}>
+                      <a href={link.url} target="_blank" rel="noopener noreferrer">{link.text}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </ContactItem>
+          ))}
         </address>
       </section>
 
